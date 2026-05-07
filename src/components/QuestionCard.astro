@@ -1,0 +1,44 @@
+---
+// Card used on the homepage to display an article preview
+import DifficultyBadge from './DifficultyBadge.astro';
+const { article } = Astro.props;
+const { frontmatter, slug } = article;
+---
+<a href={`/articles/${slug}`} class="card">
+  <h2 class="card-title">{frontmatter.title}</h2>
+  {frontmatter.description && <p class="card-description">{frontmatter.description}</p>}
+  <DifficultyBadge difficulty={frontmatter.difficulty} />
+</a>
+
+<style>
+  .card {
+    display: block;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s;
+  }
+
+  .card:hover {
+    border-color: var(--accent);
+    text-decoration: none;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem;
+    color: var(--text);
+    font-family: var(--font-heading);
+    line-height: 1.4;
+  }
+
+  .card-description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin: 0 0 1rem;
+    line-height: 1.5;
+  }
+</style>

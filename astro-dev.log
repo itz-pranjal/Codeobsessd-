@@ -1,0 +1,24 @@
+23:05:06 [types] Generated 8ms
+
+Auto-generating collections for folders in "src/content/" that are not defined as collections.
+This is deprecated, so you should define these collections yourself in "src/content.config.ts".
+The following collections have been auto-generated: articles
+
+23:05:07 [content] Syncing content
+23:05:08 [content] Synced content
+23:05:08 [vite] Re-optimizing dependencies because vite config has changed
+
+ astro  v5.18.1 ready in 3066 ms
+
+┃ Local    http://localhost:3000/
+┃ Network  http://10.129.169.197:3000/
+           http://192.0.0.2:3000/
+
+23:05:09 watching for file changes...
+
+ update  ▶ New version of Astro available: 6.3.0
+  Run npx @astrojs/upgrade to update
+
+23:06:40 [200] / 231ms
+23:06:47 [200] /articles/degree-vs-experience 64ms
+23:07:10 [200] / 27ms

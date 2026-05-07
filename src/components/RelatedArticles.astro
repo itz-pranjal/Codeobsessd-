@@ -1,0 +1,46 @@
+---
+// List of related article links shown at the bottom of an article
+const { articles } = Astro.props;
+---
+<section class="related">
+  <h2 class="related-title">Related Articles</h2>
+  <ul class="related-list">
+    {articles.map(a => (
+      <li><a href={`/articles/${a.slug}`}>{a.frontmatter.title}</a></li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .related {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .related-title {
+    font-size: 1.1rem;
+    margin: 0 0 1rem;
+    font-family: var(--font-heading);
+  }
+
+  .related-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .related-list li {
+    margin-bottom: 0.5rem;
+  }
+
+  .related-list a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+
+  .related-list a:hover {
+    text-decoration: underline;
+  }
+</style>

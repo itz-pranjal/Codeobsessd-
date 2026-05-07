@@ -1,0 +1,90 @@
+---
+// Base layout providing global HTML structure, fonts, CSS variables, NavBar, and Footer
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+const { title = 'CodeObsessed' } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Honest answers for coders who are just getting started" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <title>{title}</title>
+</head>
+<body>
+  <NavBar />
+  <main class="container">
+    <slot />
+  </main>
+  <Footer />
+</body>
+</html>
+
+<style is:global>
+  :root {
+    --bg: #f8f9fa;
+    --bg-card: #ffffff;
+    --text: #1a1a2e;
+    --text-secondary: #4a4a6a;
+    --accent: #3b82f6;
+    --accent-hover: #2563eb;
+    --border: #e2e8f0;
+    --font-heading: 'Fira Code', 'JetBrains Mono', 'Cascadia Code', monospace;
+    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+    --max-width: 720px;
+    --line-height: 1.8;
+    --radius: 8px;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: var(--line-height);
+    font-size: 16px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1;
+  }
+
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    width: 100%;
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    line-height: 1.4;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+</style>

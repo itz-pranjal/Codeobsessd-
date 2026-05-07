@@ -1,0 +1,118 @@
+---
+// Roadmap page: numbered step list for learning programming
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const steps = [
+  {
+    title: 'Pick a goal',
+    desc: 'Before you write a single line of code, ask yourself what you want to build. Websites? Games? Automations? Your goal decides everything else - the language, the tools, the path you take. Without a goal, you will wander from tutorial to tutorial without direction.',
+  },
+  {
+    title: 'Pick a language',
+    desc: 'Choose one language based on your goal. Python for data and automation, JavaScript for web, C# or C++ for games, Java or Kotlin for Android, Swift for iOS. Stick with ONE language for at least 3 months before judging it.',
+  },
+  {
+    title: 'Learn the basics',
+    desc: 'Focus on variables, conditionals, loops, functions, arrays, and objects. You do not need to master everything. You just need enough to build something small. Use a single good book or course and finish it before moving on.',
+  },
+  {
+    title: 'Build projects',
+    desc: 'This is where real learning happens. Start with something absurdly simple: a calculator, a to-do list, a quiz app. Then gradually increase complexity. Each project teaches you something no tutorial ever will: how to debug, how to design, and how to think.',
+  },
+  {
+    title: 'Learn Git',
+    desc: 'Git is not optional. Learn to commit, push, pull, and create branches. Use GitHub to host your code. Your commit history is your portfolio. Employers look at how you work, not just what you built.',
+  },
+  {
+    title: 'Join a community',
+    desc: 'Learning alone is hard. Join a programming community - online or in person. Share your progress, ask questions, and review other people\'s code. Teaching what you know is the fastest way to deepen your own understanding.',
+  },
+];
+---
+<BaseLayout title="Roadmap — CodeObsessed">
+  <h1 class="page-title">Learning Roadmap</h1>
+  <p class="page-desc">A simple, step-by-step guide for anyone starting their coding journey.</p>
+
+  <ol class="roadmap">
+    {steps.map((step, i) => (
+      <li class="step">
+        <div class="step-number">{i + 1}</div>
+        <div class="step-content">
+          <h2 class="step-title">{step.title}</h2>
+          <p class="step-desc">{step.desc}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</BaseLayout>
+
+<style>
+  .page-title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    margin: 2rem 0 0.5rem;
+  }
+
+  .page-desc {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    margin: 0 0 2.5rem;
+  }
+
+  .roadmap {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 3rem;
+  }
+
+  .step {
+    display: flex;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .step-number {
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  .step-title {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    margin: 0 0 0.5rem;
+    color: var(--text);
+  }
+
+  .step-desc {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 640px) {
+    .page-title {
+      font-size: 1.5rem;
+    }
+
+    .step-number {
+      width: 2rem;
+      height: 2rem;
+      font-size: 0.9rem;
+    }
+
+    .step-title {
+      font-size: 1.05rem;
+    }
+  }
+</style>

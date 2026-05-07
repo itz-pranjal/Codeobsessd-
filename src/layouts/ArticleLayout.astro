@@ -1,0 +1,161 @@
+---
+// Article layout with title badge reading time quick answer content related articles and prev/next navigation
+import DifficultyBadge from '../components/DifficultyBadge.astro';
+import QuickAnswer from '../components/QuickAnswer.astro';
+import RelatedArticles from '../components/RelatedArticles.astro';
+import PrevNext from '../components/PrevNext.astro';
+import BaseLayout from './BaseLayout.astro';
+
+const { frontmatter, readingTime, relatedArticles, prevArticle, nextArticle } = Astro.props;
+const { title, description, difficulty, quickAnswer, coverImage } = frontmatter;
+---
+<BaseLayout title={`${title} — CodeObsessed`}>
+  <article class="article">
+    <header class="article-header">
+      <div class="article-meta">
+        <DifficultyBadge difficulty={difficulty} />
+        <span class="reading-time">{readingTime} min read</span>
+      </div>
+      <h1 class="article-title">{title}</h1>
+      {description && <p class="article-description">{description}</p>}
+    </header>
+
+    {coverImage && <img src={coverImage} alt="" class="cover-image" />}
+
+    {quickAnswer && <QuickAnswer content={quickAnswer} />}
+
+    <div class="article-content">
+      <slot />
+    </div>
+
+    {relatedArticles && relatedArticles.length > 0 && (
+      <RelatedArticles articles={relatedArticles} />
+    )}
+
+    <PrevNext prev={prevArticle} next={nextArticle} />
+  </article>
+</BaseLayout>
+
+<style>
+  .article {
+    padding: 2rem 0;
+  }
+
+  .article-header {
+    margin-bottom: 2rem;
+  }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .reading-time {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-family: var(--font-heading);
+  }
+
+  .article-title {
+    font-size: 2rem;
+    margin: 0 0 0.5rem;
+    color: var(--text);
+  }
+
+  .article-description {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin: 0;
+  }
+
+  .cover-image {
+    width: 100%;
+    max-height: 320px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    display: block;
+  }
+
+  .article-content {
+    font-size: 1rem;
+    line-height: var(--line-height);
+  }
+
+  .article-content :global(h2) {
+    font-size: 1.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .article-content :global(h3) {
+    font-size: 1.25rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .article-content :global(p) {
+    margin-bottom: 1.25rem;
+  }
+
+  .article-content :global(ul), .article-content :global(ol) {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+  }
+
+  .article-content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .article-content :global(code) {
+    background: #eef2ff;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: var(--font-heading);
+    font-size: 0.9em;
+  }
+
+  .article-content :global(pre) {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    padding: 1.25rem;
+    border-radius: var(--radius);
+    overflow-x: auto;
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+  }
+
+  .article-content :global(pre code) {
+    background: none;
+    padding: 0;
+    font-size: inherit;
+  }
+
+  .article-content :global(blockquote) {
+    border-left: 4px solid var(--accent);
+    margin: 1.5rem 0;
+    padding: 0.75rem 1.25rem;
+    background: #eef2ff;
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+
+  .article-content :global(hr) {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+  }
+
+  @media (max-width: 640px) {
+    .article {
+      padding: 1.5rem 0;
+    }
+
+    .article-title {
+      font-size: 1.5rem;
+    }
+  }
+</style>

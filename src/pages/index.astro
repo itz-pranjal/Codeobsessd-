@@ -1,0 +1,70 @@
+---
+// Homepage: site name, tagline, and grid of question cards
+import BaseLayout from '../layouts/BaseLayout.astro';
+import QuestionCard from '../components/QuestionCard.astro';
+
+const articles = Object.values(import.meta.glob('../content/articles/*.md', { eager: true }));
+const sorted = articles
+  .map(a => ({ ...a, slug: a.file.split('/').pop().replace('.md', '') }))
+  .sort((a, b) => new Date(b.frontmatter.date) - new Date(a.frontmatter.date));
+---
+<BaseLayout title="CodeObsessed — Honest answers for coders">
+  <section class="hero">
+    <h1 class="site-title">CodeObsessed</h1>
+    <p class="tagline">Honest answers for coders who are just getting started</p>
+  </section>
+
+  <section class="card-grid">
+    {sorted.map(a => <QuestionCard article={a} />)}
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: 3rem 0 2rem;
+  }
+
+  .site-title {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    margin: 0 0 0.5rem;
+    color: var(--text);
+  }
+
+  .tagline {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  @media (max-width: 900px) {
+    .card-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .site-title {
+      font-size: 1.8rem;
+    }
+
+    .tagline {
+      font-size: 1rem;
+    }
+
+    .card-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+</style>

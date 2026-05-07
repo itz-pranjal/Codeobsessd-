@@ -1,0 +1,75 @@
+---
+// Previous and next article navigation buttons
+const { prev, next } = Astro.props;
+---
+<nav class="prev-next">
+  {prev ? (
+    <a href={`/articles/${prev.slug}`} class="prev">
+      <span class="direction">Previous</span>
+      <span class="title">{prev.frontmatter.title}</span>
+    </a>
+  ) : <div />}
+  {next ? (
+    <a href={`/articles/${next.slug}`} class="next">
+      <span class="direction">Next</span>
+      <span class="title">{next.frontmatter.title}</span>
+    </a>
+  ) : <div />}
+</nav>
+
+<style>
+  .prev-next {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .prev-next a {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: border-color 0.15s;
+  }
+
+  .prev-next a:hover {
+    border-color: var(--accent);
+    text-decoration: none;
+  }
+
+  .direction {
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+  }
+
+  .title {
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .next {
+    text-align: right;
+  }
+
+  @media (max-width: 640px) {
+    .prev-next {
+      flex-direction: column;
+    }
+
+    .next {
+      text-align: left;
+    }
+  }
+</style>

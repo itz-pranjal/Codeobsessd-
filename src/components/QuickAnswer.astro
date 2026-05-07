@@ -1,0 +1,36 @@
+---
+// Highlighted box for the quick answer section at the top of articles
+const { content } = Astro.props;
+---
+<div class="quick-answer">
+  <strong class="qa-label">Quick Answer</strong>
+  <p class="qa-content">{content}</p>
+</div>
+
+<style>
+  .quick-answer {
+    background: #eef2ff;
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .qa-label {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .qa-content {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+</style>

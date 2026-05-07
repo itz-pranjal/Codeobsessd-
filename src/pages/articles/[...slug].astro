@@ -1,0 +1,37 @@
+---
+// Individual article page matching any slug under /articles/ via static paths
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+
+export async function getStaticPaths() {
+  const articles = Object.values(import.meta.glob('../../content/articles/*.md', { eager: true }));
+  const all = articles
+    .map(a => {
+      const slug = a.file.split('/').pop().replace('.md', '');
+      const wordCount = typeof a.rawContent === 'function' ? a.rawContent().split(/\s+/).length : 50;
+      const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+      return { ...a, slug, readingTime };
+    })
+    .sort((a, b) => new Date(b.frontmatter.date) - new Date(a.frontmatter.date));
+
+  return all.map((a, i) => ({
+    params: { slug: a.slug },
+    props: { article: a, allArticles: all, currentIndex: i },
+  }));
+}
+
+const { article, allArticles, currentIndex } = Astro.props;
+const relatedArticles = (article.frontmatter.related || [])
+  .map(s => allArticles.find(a => a.slug === s))
+  .filter(Boolean);
+const prevArticle = currentIndex > 0 ? allArticles[currentIndex - 1] : null;
+const nextArticle = currentIndex < allArticles.length - 1 ? allArticles[currentIndex + 1] : null;
+---
+<ArticleLayout
+  frontmatter={article.frontmatter}
+  readingTime={article.readingTime}
+  relatedArticles={relatedArticles}
+  prevArticle={prevArticle}
+  nextArticle={nextArticle}
+>
+  <article.Content />
+</ArticleLayout>
