@@ -4,8 +4,10 @@ description: "A simple breakdown to help you pick your first programming languag
 difficulty: "Beginner"
 date: "2025-01-01"
 quickAnswer: "Python is the most recommended first language for most beginners. It has simple syntax, a huge community, and works for web development, automation, data analysis, and more. If your goal is web development specifically, start with JavaScript instead."
-coverImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800"
+coverImage: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=800&auto=format&fit=crop"
 related: ["why-so-many-languages", "how-to-study-roadmap"]
+author: "Pranjal Bhatt"
+featured: false
 ---
 
 The best first language depends entirely on what you want to build. There is no single "best" language -- only the right one for your goal.

@@ -1,44 +1,116 @@
 ---
-// Card used on the homepage to display an article preview
 import DifficultyBadge from './DifficultyBadge.astro';
 const { article } = Astro.props;
-const { frontmatter, slug } = article;
+const { frontmatter, slug, readingTime } = article;
+const wordCount = article.rawContent ? article.rawContent().split(/\s+/).length : 50;
+const readTime = Math.ceil(wordCount / 200) + ' min read';
+const dateStr = new Date(frontmatter.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
 ---
 <a href={`/articles/${slug}`} class="card">
-  <h2 class="card-title">{frontmatter.title}</h2>
-  {frontmatter.description && <p class="card-description">{frontmatter.description}</p>}
-  <DifficultyBadge difficulty={frontmatter.difficulty} />
+  <div class="card-image-wrapper">
+    {frontmatter.coverImage ? (
+      <img src={frontmatter.coverImage} alt="" class="card-image" loading="lazy" decoding="async" onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='flex'" />
+    ) : null}
+    <div class="image-fallback" style={{ display: frontmatter.coverImage ? 'none' : 'flex' }}>
+      <span>CodeObsessed</span>
+    </div>
+  </div>
+  <div class="card-body">
+    <DifficultyBadge difficulty={frontmatter.difficulty} />
+    <h2 class="card-title">{frontmatter.title}</h2>
+    {frontmatter.description && <p class="card-description">{frontmatter.description}</p>}
+    <div class="card-meta">
+      <span>{frontmatter.author || 'Pranjal Bhatt'}</span>
+      <span class="meta-sep">•</span>
+      <span>{dateStr}</span>
+      <span class="meta-sep">•</span>
+      <span>{readTime}</span>
+    </div>
+  </div>
 </a>
 
 <style>
   .card {
     display: block;
     background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.75rem;
+    border-radius: 16px;
     text-decoration: none;
     color: inherit;
-    transition: border-color 0.15s;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
   }
 
   .card:hover {
-    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
     text-decoration: none;
   }
 
+  .card-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
+    display: block;
+  }
+
+  .image-fallback {
+    width: 100%;
+    height: 100%;
+    background: var(--bg-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .image-fallback span {
+    color: var(--accent);
+    font-family: 'Inter', monospace;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .card-body {
+    padding: 1.25rem;
+  }
+
   .card-title {
-    font-size: 1.1rem;
-    margin: 0 0 0.5rem;
-    color: var(--text);
-    font-family: var(--font-heading);
-    line-height: 1.4;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0.75rem 0 0.5rem;
+    line-height: 1.35;
   }
 
   .card-description {
+    font-family: 'Inter', sans-serif;
     font-size: 0.9rem;
-    color: var(--text-secondary);
-    margin: 0 0 1rem;
-    line-height: 1.5;
+    color: #9ca3af;
+    margin: 0 0 0.75rem;
+    line-height: 1.55;
+  }
+
+  .card-meta {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .meta-sep {
+    color: #4b5563;
   }
 </style>

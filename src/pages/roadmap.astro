@@ -1,5 +1,4 @@
 ---
-// Roadmap page: numbered step list for learning programming
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const steps = [
@@ -33,86 +32,100 @@ const steps = [
   <h1 class="page-title">Learning Roadmap</h1>
   <p class="page-desc">A simple, step-by-step guide for anyone starting their coding journey.</p>
 
-  <ol class="roadmap">
+  <div class="roadmap">
     {steps.map((step, i) => (
-      <li class="step">
+      <div class="step-card">
         <div class="step-number">{i + 1}</div>
         <div class="step-content">
           <h2 class="step-title">{step.title}</h2>
           <p class="step-desc">{step.desc}</p>
         </div>
-      </li>
+      </div>
     ))}
-  </ol>
+  </div>
 </BaseLayout>
 
 <style>
   .page-title {
-    font-family: var(--font-heading);
+    font-family: 'Playfair Display', Georgia, serif;
     font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
     margin: 2rem 0 0.5rem;
   }
 
   .page-desc {
-    color: var(--text-secondary);
+    font-family: 'Inter', sans-serif;
+    color: var(--text-muted);
     font-size: 1.05rem;
     margin: 0 0 2.5rem;
   }
 
   .roadmap {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 3rem;
+    max-width: 720px;
+    margin: 0 auto 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
   }
 
-  .step {
-    display: flex;
-    gap: 1.25rem;
-    margin-bottom: 2rem;
+  .step-card {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 1.5rem;
+    position: relative;
+    border-left: 3px solid var(--accent);
   }
 
   .step-number {
-    flex-shrink: 0;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 50%;
-    background: var(--accent);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-heading);
+    position: absolute;
+    top: 1rem;
+    right: 1.25rem;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2rem;
     font-weight: 700;
-    font-size: 1.1rem;
+    color: var(--accent);
+    opacity: 0.4;
+    line-height: 1;
+  }
+
+  .step-content {
+    padding-right: 2.5rem;
   }
 
   .step-title {
-    font-family: var(--font-heading);
-    font-size: 1.2rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
     margin: 0 0 0.5rem;
-    color: var(--text);
   }
 
   .step-desc {
+    font-family: 'Inter', sans-serif;
     margin: 0;
-    color: var(--text-secondary);
+    color: #9ca3af;
     font-size: 0.95rem;
     line-height: 1.7;
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     .page-title {
       font-size: 1.5rem;
     }
 
     .step-number {
-      width: 2rem;
-      height: 2rem;
-      font-size: 0.9rem;
+      font-size: 1.5rem;
     }
 
-    .step-title {
-      font-size: 1.05rem;
+    .step-content {
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .roadmap {
+      padding: 0 1rem;
     }
   }
 </style>

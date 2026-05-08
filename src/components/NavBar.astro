@@ -1,85 +1,240 @@
 ---
-// Site-wide navigation bar with glitch logo effect
+const currentPath = Astro.url.pathname;
 ---
+
 <nav class="navbar">
-  <div class="navbar-inner container">
-    <a href="/" class="logo">CodeObsessed</a>
-    <ul class="nav-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="/articles">Articles</a></li>
-      <li><a href="/roadmap">Roadmap</a></li>
+  <div class="navbar-inner">
+    <a href="/" class="logo">
+      codeobsessed<span class="cursor">_</span>
+    </a>
+
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/" class={currentPath === '/' ? 'active' : ''}>Home</a></li>
+      <li><a href="/articles" class={currentPath.startsWith('/articles') ? 'active' : ''}>Articles</a></li>
+      <li><a href="/roadmap" class={currentPath === '/roadmap' ? 'active' : ''}>Roadmap</a></li>
+      <li><a href="/settings" class={currentPath === '/settings' ? 'active' : ''}>Settings</a></li>
     </ul>
+
+    <a href="mailto:pranjalbhatt2008@gmail.com" class="subscribe-btn">Subscribe</a>
   </div>
 </nav>
 
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+
+  if (hamburger && navLinks) {
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+      hamburger.classList.toggle('open');
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        hamburger.classList.remove('open');
+      });
+    });
+  }
+</script>
+
 <style>
   .navbar {
-    background: var(--bg-card);
-    border-bottom: 1px solid var(--border);
-    padding: 1rem 0;
+    background: var(--bg-base);
+    border-bottom: 1px solid #1f1f1f;
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
 
   .navbar-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: 60px;
+    width: 100%;
   }
 
   .logo {
-    font-family: var(--font-heading);
-    font-size: 1.25rem;
+    font-family: 'Inter', monospace;
     font-weight: 700;
-    color: var(--text);
+    font-size: 1.2rem;
+    color: var(--accent);
     text-decoration: none;
-    animation: glitch 6s infinite;
+    animation: glitch 5s infinite;
+    white-space: nowrap;
+    letter-spacing: -0.02em;
   }
 
   .logo:hover {
     text-decoration: none;
-    color: var(--accent);
+  }
+
+  .cursor {
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  @keyframes glitch {
+    0%, 85%, 100% {
+      text-shadow: none;
+      transform: none;
+      clip-path: none;
+    }
+    86% {
+      text-shadow: -3px 0 #ff0040, 3px 0 #00ffff;
+      transform: translateX(-2px) skewX(-1deg);
+    }
+    87% {
+      text-shadow: 3px 0 #ff0040, -3px 0 #00ffff;
+      transform: translateX(2px) skewX(1deg);
+      clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+    }
+    88% {
+      text-shadow: -3px 0 #ff0040, 3px 0 #00ffff;
+      transform: translateX(-1px);
+      clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+    }
+    89% {
+      text-shadow: 3px 0 #ff0040, -3px 0 #00ffff;
+      transform: translateX(3px) skewX(-2deg);
+      clip-path: none;
+    }
+    90% {
+      text-shadow: -2px 0 #ff0040, 2px 0 #00ffff;
+      transform: translateX(0);
+    }
+    91% {
+      text-shadow: none;
+      transform: none;
+    }
+    92% {
+      text-shadow: 4px 0 #ff0040, -4px 0 #00ffff;
+      transform: translateX(-3px);
+    }
+    93% {
+      text-shadow: none;
+      transform: none;
+    }
   }
 
   .nav-links {
     list-style: none;
     display: flex;
-    gap: 1.5rem;
+    gap: 2rem;
     margin: 0;
     padding: 0;
+    align-items: center;
   }
 
   .nav-links a {
-    font-family: var(--font-heading);
-    font-size: 0.9rem;
-    color: var(--text-secondary);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-muted);
     text-decoration: none;
+    padding-bottom: 2px;
+    transition: color 0.15s;
   }
 
   .nav-links a:hover {
-    color: var(--accent);
+    color: var(--text-primary);
     text-decoration: none;
   }
 
-  @keyframes glitch {
-    0%, 90%, 100% { text-shadow: none; transform: none; }
-    91% { text-shadow: -2px 0 #ff0040, 2px 0 #00ffff; }
-    92% { text-shadow: 2px 0 #ff0040, -2px 0 #00ffff; transform: translateX(-1px); }
-    93% { text-shadow: -2px 0 #ff0040, 2px 0 #00ffff; transform: translateX(1px); }
-    94% { text-shadow: none; transform: translateX(0); }
-    95% { text-shadow: 2px 0 #ff0040, -2px 0 #00ffff; }
-    96% { text-shadow: none; }
+  .nav-links a.active {
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--accent);
   }
 
-  @media (max-width: 640px) {
-    .logo {
-      font-size: 1.1rem;
-    }
+  .subscribe-btn {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--accent);
+    background: transparent;
+    border: 2px solid var(--accent);
+    border-radius: 999px;
+    padding: 0.4rem 1.2rem;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
 
+  .subscribe-btn:hover {
+    background: var(--accent);
+    color: #000000;
+    text-decoration: none;
+  }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .hamburger-line {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--text-muted);
+    border-radius: 2px;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+
+  .hamburger.open .hamburger-line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .hamburger.open .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.open .hamburger-line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  @media (max-width: 768px) {
     .nav-links {
+      display: none;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      right: 0;
+      background: var(--bg-base);
+      border-bottom: 1px solid #1f1f1f;
+      flex-direction: column;
+      padding: 1rem 1.5rem;
       gap: 1rem;
     }
 
-    .nav-links a {
-      font-size: 0.8rem;
+    .nav-links.open {
+      display: flex;
+    }
+
+    .hamburger {
+      display: flex;
+    }
+
+    .subscribe-btn {
+      display: none;
     }
   }
 </style>

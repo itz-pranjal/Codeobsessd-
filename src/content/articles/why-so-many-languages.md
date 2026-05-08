@@ -4,8 +4,10 @@ description: "Understanding the diversity of languages and why each exists."
 difficulty: "Beginner"
 date: "2025-01-07"
 quickAnswer: "Different languages exist because different tasks have different needs. Some languages prioritize speed, others prioritize ease of use, and others prioritize safety. Each language makes different trade-offs, and new languages are created when existing ones do not fit a particular need well."
-coverImage: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=800"
+coverImage: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop"
 related: ["future-programming-language", "which-language-to-start"]
+author: "Shivansh Bansal"
+featured: false
 ---
 
 When you first start learning programming, the sheer number of languages can be overwhelming. But each language was created to solve a specific problem or to address a specific frustration with existing languages.

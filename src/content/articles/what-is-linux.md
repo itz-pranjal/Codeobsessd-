@@ -4,8 +4,10 @@ description: "A beginner-friendly introduction to the Linux operating system."
 difficulty: "Beginner"
 date: "2025-01-08"
 quickAnswer: "Linux is a free, open-source operating system that powers most servers, developer tools, and even Android phones. You do not need Linux to start programming, but learning the basics of the Linux command line will make you a more capable developer."
-coverImage: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=800"
+coverImage: "https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=800&auto=format&fit=crop"
 related: ["what-software-do-devs-use", "how-do-coders-share-code"]
+author: "Pranjal Bhatt"
+featured: false
 ---
 
 Linux is an operating system, just like Windows or macOS. But unlike those systems, Linux is free and open source -- anyone can view, modify, and distribute its source code. It powers the majority of web servers, cloud infrastructure, and developer tools.

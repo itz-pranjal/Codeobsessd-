@@ -4,8 +4,10 @@ description: "A realistic look at how AI is changing programming careers."
 difficulty: "Both"
 date: "2025-01-05"
 quickAnswer: "AI will not eliminate programming jobs, but it will change how developers work. AI tools like GitHub Copilot and ChatGPT are becoming powerful assistants that help developers write code faster. The developers who thrive will be those who learn to use AI as a tool, not those who fear it."
-coverImage: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800"
+coverImage: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&auto=format&fit=crop"
 related: ["how-to-study-roadmap", "is-leetcode-a-must"]
+author: "Pranjal Bhatt"
+featured: false
 ---
 
 The rise of AI code assistants has sparked fear and uncertainty in the programming community. But the reality is more nuanced than the headlines suggest. AI tools are excellent at generating boilerplate code, writing tests, and helping with repetitive tasks -- but they are not good at understanding business requirements, designing system architecture, or making trade-off decisions.

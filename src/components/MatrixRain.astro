@@ -1,0 +1,86 @@
+<canvas id="matrix-canvas"></canvas>
+
+<script>
+  const canvas = document.getElementById('matrix-canvas');
+  let ctx = canvas.getContext('2d');
+  let columns = [];
+  let columnCount = 0;
+  let animId = null;
+  let lastFrame = 0;
+  const fps = 30;
+  const interval = 1000 / fps;
+
+  const chars = '01{}();=></*';
+
+  function resize() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+    const fontSize = 14;
+    columnCount = Math.floor(canvas.width / fontSize);
+    columns = [];
+    for (let i = 0; i < columnCount; i++) {
+      columns.push({
+        y: Math.random() * canvas.height,
+        speed: 0.3 + Math.random() * 0.7,
+        opacity: 0.3 + Math.random() * 0.7,
+      });
+    }
+  }
+
+  function draw(timestamp) {
+    if (timestamp - lastFrame < interval) {
+      animId = requestAnimationFrame(draw);
+      return;
+    }
+    lastFrame = timestamp;
+
+    ctx.fillStyle = 'rgba(15, 15, 15, 0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.font = '14px monospace';
+
+    for (let i = 0; i < columns.length; i++) {
+      const col = columns[i];
+      const x = i * 14;
+      const char = chars[Math.floor(Math.random() * chars.length)];
+
+      const leadingBright = 0.5 + col.opacity * 0.5;
+      ctx.fillStyle = `rgba(34, 197, 94, ${leadingBright})`;
+      ctx.fillText(char, x, col.y);
+
+      ctx.fillStyle = `rgba(34, 197, 94, ${col.opacity * 0.3})`;
+      ctx.fillText(char, x, col.y - 14);
+
+      ctx.fillStyle = `rgba(34, 197, 94, ${col.opacity * 0.1})`;
+      ctx.fillText(char, x, col.y - 28);
+
+      if (col.y > canvas.height) {
+        col.y = 0;
+        col.speed = 0.3 + Math.random() * 0.7;
+        col.opacity = 0.3 + Math.random() * 0.7;
+      }
+      col.y += col.speed;
+    }
+
+    animId = requestAnimationFrame(draw);
+  }
+
+  resize();
+  animId = requestAnimationFrame(draw);
+
+  const ro = new ResizeObserver(() => {
+    resize();
+  });
+  ro.observe(canvas.parentElement);
+</script>
+
+<style>
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px 0 0 16px;
+    background: #0f0f0f;
+  }
+</style>

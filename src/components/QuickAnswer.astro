@@ -1,5 +1,4 @@
 ---
-// Highlighted box for the quick answer section at the top of articles
 const { content } = Astro.props;
 ---
 <div class="quick-answer">
@@ -9,18 +8,18 @@ const { content } = Astro.props;
 
 <style>
   .quick-answer {
-    background: #eef2ff;
-    border-left: 4px solid var(--accent);
-    border-radius: var(--radius);
+    background: var(--accent-dim);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
     padding: 1.25rem 1.5rem;
     margin-bottom: 2rem;
   }
 
   .qa-label {
     display: block;
-    font-family: var(--font-heading);
+    font-family: 'Inter', sans-serif;
     font-size: 0.8rem;
-    font-weight: 700;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--accent);
@@ -29,8 +28,9 @@ const { content } = Astro.props;
 
   .qa-content {
     margin: 0;
+    font-family: 'Inter', sans-serif;
     font-size: 1rem;
     line-height: 1.7;
-    color: var(--text);
+    color: #d4d4d4;
   }
 </style>

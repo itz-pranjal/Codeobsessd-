@@ -1,7 +1,6 @@
 ---
-// Articles list page with filter buttons and sorted article entries
 import BaseLayout from '../layouts/BaseLayout.astro';
-import DifficultyBadge from '../components/DifficultyBadge.astro';
+import QuestionCard from '../components/QuestionCard.astro';
 
 const articles = Object.values(import.meta.glob('../content/articles/*.md', { eager: true }));
 const sorted = articles
@@ -10,43 +9,38 @@ const sorted = articles
 ---
 <BaseLayout title="Articles — CodeObsessed">
   <h1 class="page-title">All Articles</h1>
+  <p class="page-subtitle">Honest answers for coders at every level.</p>
 
   <div class="filters">
     <button class="filter active" data-filter="all">All</button>
     <button class="filter" data-filter="Beginner">Beginner</button>
     <button class="filter" data-filter="Intermediate">Intermediate</button>
+    <button class="filter" data-filter="Both">All Levels</button>
   </div>
 
-  <div class="article-list">
+  <div class="card-grid" id="articleGrid">
     {sorted.map(a => (
-      <a href={`/articles/${a.slug}`} class="article-entry" data-difficulty={a.frontmatter.difficulty}>
-        <div class="entry-info">
-          <h2 class="entry-title">{a.frontmatter.title}</h2>
-          {a.frontmatter.description && <p class="entry-desc">{a.frontmatter.description}</p>}
-          <div class="entry-meta">
-            <DifficultyBadge difficulty={a.frontmatter.difficulty} />
-            <span class="entry-date">{new Date(a.frontmatter.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
-          </div>
-        </div>
-      </a>
+      <div class="card-wrapper" data-difficulty={a.frontmatter.difficulty}>
+        <QuestionCard article={a} />
+      </div>
     ))}
   </div>
 </BaseLayout>
 
 <script>
   const filters = document.querySelectorAll('.filter');
-  const entries = document.querySelectorAll('.article-entry');
+  const wrappers = document.querySelectorAll('.card-wrapper');
 
   filters.forEach(btn => {
     btn.addEventListener('click', () => {
       filters.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       const filter = btn.dataset.filter;
-      entries.forEach(entry => {
-        if (filter === 'all' || entry.dataset.difficulty === filter) {
-          entry.style.display = '';
+      wrappers.forEach(w => {
+        if (filter === 'all' || w.dataset.difficulty === filter) {
+          w.style.display = '';
         } else {
-          entry.style.display = 'none';
+          w.style.display = 'none';
         }
       });
     });
@@ -55,91 +49,74 @@ const sorted = articles
 
 <style>
   .page-title {
-    font-family: var(--font-heading);
+    font-family: 'Playfair Display', Georgia, serif;
     font-size: 2rem;
-    margin: 2rem 0 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 2rem 0 0.25rem;
+  }
+
+  .page-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin: 0 0 2rem;
   }
 
   .filters {
     display: flex;
     gap: 0.5rem;
     margin-bottom: 2rem;
+    flex-wrap: wrap;
   }
 
   .filter {
-    padding: 0.5rem 1.25rem;
-    border: 1px solid var(--border);
+    padding: 0.4rem 1rem;
+    border: 1px solid transparent;
     border-radius: 999px;
     background: var(--bg-card);
-    color: var(--text-secondary);
-    font-family: var(--font-heading);
+    color: var(--text-muted);
+    font-family: 'Inter', sans-serif;
     font-size: 0.85rem;
     cursor: pointer;
     transition: all 0.15s;
   }
 
   .filter:hover {
-    border-color: var(--accent);
     color: var(--accent);
   }
 
   .filter.active {
-    background: var(--accent);
-    color: white;
+    background: var(--accent-dim);
+    color: var(--accent);
     border-color: var(--accent);
   }
 
-  .article-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding-bottom: 2rem;
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+    padding-bottom: 3rem;
   }
 
-  .article-entry {
-    display: block;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.25rem 1.5rem;
-    text-decoration: none;
-    color: inherit;
-    transition: border-color 0.15s;
+  @media (max-width: 1024px) {
+    .card-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
   }
 
-  .article-entry:hover {
-    border-color: var(--accent);
-    text-decoration: none;
+  @media (max-width: 768px) {
+    .card-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
   }
 
-  .entry-title {
-    font-family: var(--font-heading);
-    font-size: 1.1rem;
-    margin: 0 0 0.5rem;
-    color: var(--text);
-  }
-
-  .entry-desc {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    margin: 0 0 0.75rem;
-    line-height: 1.5;
-  }
-
-  .entry-meta {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .entry-date {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-  }
-
-  @media (max-width: 640px) {
-    .page-title {
-      font-size: 1.5rem;
+  @media (max-width: 480px) {
+    .card-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
     }
   }
 </style>

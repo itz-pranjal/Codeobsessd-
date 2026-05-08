@@ -1,5 +1,4 @@
 ---
-// List of related article links shown at the bottom of an article
 const { articles } = Astro.props;
 ---
 <section class="related">
@@ -15,13 +14,15 @@ const { articles } = Astro.props;
   .related {
     margin-top: 3rem;
     padding-top: 2rem;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid #1f1f1f;
   }
 
   .related-title {
-    font-size: 1.1rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--accent);
     margin: 0 0 1rem;
-    font-family: var(--font-heading);
   }
 
   .related-list {

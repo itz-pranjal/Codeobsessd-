@@ -4,8 +4,10 @@ description: "Understanding when and why data structures and algorithms matter."
 difficulty: "Intermediate"
 date: "2025-01-09"
 quickAnswer: "LeetCode-style problems are mainly a requirement for passing technical interviews at large tech companies (FAANG, etc.). For most software development jobs, practical project experience matters far more. Learning DSA is valuable for understanding how code works, but do not let it consume your entire learning journey."
-coverImage: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800"
+coverImage: "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?w=800&auto=format&fit=crop"
 related: ["how-much-maths-for-coding", "degree-vs-experience"]
+author: "Shivansh Bansal"
+featured: false
 ---
 
 Data Structures and Algorithms (DSA) and platforms like LeetCode have become synonymous with coding interviews, especially at large tech companies. But there is a big difference between being good at LeetCode and being a good software engineer.

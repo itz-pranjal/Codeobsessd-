@@ -36,7 +36,7 @@ India
 Write → ARTICLE.md → Preview locally → PRODUCTION.md → Push → Live
 
 ## Current Article Count
-11 articles published. Add more by following ARTICLE.md.
+12 articles published. Add more by following ARTICLE.md.
 
 ## Tech Stack
 - Astro (static site framework)

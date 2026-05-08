@@ -4,8 +4,10 @@ description: "The honest answer about mathematics in software development."
 difficulty: "Beginner"
 date: "2025-01-04"
 quickAnswer: "Most day-to-day programming requires only basic arithmetic and logic. You do not need advanced math to build websites, mobile apps, or most software. Advanced math is only needed for specialized fields like game development, data science, or graphics programming."
-coverImage: "https://images.unsplash.com/photo-1509228468518-180dd4864904?w=800"
+coverImage: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&auto=format&fit=crop"
 related: ["which-language-to-start", "is-leetcode-a-must"]
+author: "Pranjal Bhatt"
+featured: false
 ---
 
 This is one of the most common fears beginners have, and the good news is: most programming requires surprisingly little math. Building a website, a mobile app, or a CRUD application involves basic arithmetic, variables, and if-else logic -- nothing beyond high school level.

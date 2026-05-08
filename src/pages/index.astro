@@ -1,70 +1,232 @@
 ---
-// Homepage: site name, tagline, and grid of question cards
 import BaseLayout from '../layouts/BaseLayout.astro';
 import QuestionCard from '../components/QuestionCard.astro';
+import DifficultyBadge from '../components/DifficultyBadge.astro';
+import MatrixRain from '../components/MatrixRain.astro';
 
 const articles = Object.values(import.meta.glob('../content/articles/*.md', { eager: true }));
 const sorted = articles
   .map(a => ({ ...a, slug: a.file.split('/').pop().replace('.md', '') }))
   .sort((a, b) => new Date(b.frontmatter.date) - new Date(a.frontmatter.date));
+
+const featured = sorted.find(a => a.frontmatter.featured) || sorted[0];
+const rest = sorted.filter(a => a.slug !== featured.slug);
+const wordCount = featured.rawContent ? featured.rawContent().split(/\s+/).length : 50;
+const featuredReadTime = Math.ceil(wordCount / 200) + ' min read';
+const featuredDate = new Date(featured.frontmatter.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
 ---
 <BaseLayout title="CodeObsessed — Honest answers for coders">
-  <section class="hero">
-    <h1 class="site-title">CodeObsessed</h1>
-    <p class="tagline">Honest answers for coders who are just getting started</p>
+  <section class="hero-card">
+    <div class="hero-image-wrapper">
+      <div class="matrix-desktop">
+        <MatrixRain />
+      </div>
+      <div class="image-mobile">
+        {featured.frontmatter.coverImage ? (
+          <img src={featured.frontmatter.coverImage} alt="" class="hero-image" loading="lazy" decoding="async" onerror="this.onerror=null;this.style.display='none';this.parentElement.style.background='#1a1a1a';" />
+        ) : null}
+        <div class="hero-image-fallback" style={{ display: featured.frontmatter.coverImage ? 'none' : 'flex' }}>
+          <span>CodeObsessed</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-content">
+      <DifficultyBadge difficulty={featured.frontmatter.difficulty} />
+      <h1 class="hero-title">{featured.frontmatter.title}</h1>
+      <p class="hero-desc">{featured.frontmatter.description}</p>
+      <div class="hero-meta">
+        <span>{featured.frontmatter.author || 'Pranjal Bhatt'}</span>
+        <span class="hero-meta-sep">•</span>
+        <span>{featuredDate}</span>
+        <span class="hero-meta-sep">•</span>
+        <span>{featuredReadTime}</span>
+      </div>
+      <a href={`/articles/${featured.slug}`} class="hero-link">Read Article →</a>
+    </div>
   </section>
 
+  <h2 class="section-heading">Latest Articles</h2>
+
   <section class="card-grid">
-    {sorted.map(a => <QuestionCard article={a} />)}
+    {rest.map(a => <QuestionCard article={a} />)}
   </section>
 </BaseLayout>
 
 <style>
-  .hero {
-    text-align: center;
-    padding: 3rem 0 2rem;
+  .hero-card {
+    display: flex;
+    max-width: 1100px;
+    margin: 2rem auto 3rem;
+    height: 420px;
+    border-radius: 16px;
+    background: var(--bg-card);
+    overflow: hidden;
   }
 
-  .site-title {
-    font-family: var(--font-heading);
-    font-size: 2.5rem;
-    margin: 0 0 0.5rem;
-    color: var(--text);
+  .hero-image-wrapper {
+    flex: 0 0 55%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
   }
 
-  .tagline {
+  .image-mobile {
+    display: none;
+    width: 100%;
+    height: 100%;
+  }
+
+  .image-mobile .hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hero-image-fallback {
+    width: 100%;
+    height: 100%;
+    background: var(--bg-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-image-fallback span {
+    color: var(--accent);
+    font-family: 'Inter', monospace;
+    font-weight: 600;
     font-size: 1.1rem;
-    color: var(--text-secondary);
-    margin: 0;
-    line-height: 1.6;
+  }
+
+  .hero-content {
+    flex: 1;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0.75rem 0 0.75rem;
+    line-height: 1.2;
+  }
+
+  .hero-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: #9ca3af;
+    margin: 0 0 1rem;
+    line-height: 1.5;
+  }
+
+  .hero-meta {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-meta-sep {
+    color: #4b5563;
+  }
+
+  .hero-link {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .hero-link:hover {
+    text-decoration: underline;
+  }
+
+  .section-heading {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 1.5rem;
   }
 
   .card-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    margin-top: 2rem;
+    gap: 1.75rem;
     margin-bottom: 3rem;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1024px) {
     .card-grid {
       grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
     }
   }
 
-  @media (max-width: 640px) {
-    .site-title {
-      font-size: 1.8rem;
+  @media (max-width: 768px) {
+    .hero-card {
+      flex-direction: column;
+      height: auto;
     }
 
-    .tagline {
-      font-size: 1rem;
+    .hero-image-wrapper {
+      flex: none;
+      height: 240px;
+    }
+
+    .matrix-desktop {
+      display: none;
+    }
+
+    .image-mobile {
+      display: block;
+    }
+
+    .hero-content {
+      padding: 1.5rem;
+    }
+
+    .hero-title {
+      font-size: 1.5rem;
+    }
+
+    .card-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-image-wrapper {
+      height: 200px;
+    }
+
+    .hero-title {
+      font-size: 1.6rem;
     }
 
     .card-grid {
       grid-template-columns: 1fr;
-      gap: 1.5rem;
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .card-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
     }
   }
 </style>

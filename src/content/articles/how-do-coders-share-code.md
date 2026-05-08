@@ -4,8 +4,10 @@ description: "From copy-paste to GitHub -- how developers share and collaborate 
 difficulty: "Beginner"
 date: "2025-01-03"
 quickAnswer: "GitHub is the most common platform for sharing code. Developers upload their projects to GitHub using Git, which lets others view, download, fork, and contribute to the code. It is like a social network for code."
-coverImage: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=800"
+coverImage: "https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=800&auto=format&fit=crop"
 related: ["what-is-linux", "what-software-do-devs-use"]
+author: "Shivansh Bansal"
+featured: false
 ---
 
 Sharing code is at the heart of modern software development. The most common way developers share code today is through Git-based platforms like GitHub, GitLab, and Bitbucket. These platforms host entire project repositories and make it easy for teams to collaborate.

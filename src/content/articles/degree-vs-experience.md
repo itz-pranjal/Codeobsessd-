@@ -4,8 +4,10 @@ description: "A balanced look at the degree versus experience debate in tech."
 difficulty: "Both"
 date: "2025-01-10"
 quickAnswer: "Experience matters more than a degree for most programming jobs. Many successful developers never completed a CS degree. However, a degree can help with your first job, visa applications, and some specialized fields. The most important thing is what you can build and demonstrate."
-coverImage: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800"
+coverImage: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&auto=format&fit=crop"
 related: ["how-to-study-roadmap", "is-leetcode-a-must"]
+author: "Pranjal Bhatt"
+featured: false
 ---
 
 The tech industry is one of the few fields where a college degree is not strictly required. Many of the most successful developers and tech founders never completed a computer science degree. What matters most is what you can build and how well you can solve problems.

@@ -4,8 +4,10 @@ description: "A tour of the tools professional developers rely on every day."
 difficulty: "Beginner"
 date: "2025-01-02"
 quickAnswer: "The essential toolkit for most developers is: a code editor (VS Code), a terminal, Git for version control, and a browser with developer tools. That is all you need to start building real projects."
-coverImage: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800"
+coverImage: "https://images.unsplash.com/photo-1593720213428-28a5b9e94613?w=800&auto=format&fit=crop"
 related: ["what-is-linux", "how-do-coders-share-code"]
+author: "Shivansh Bansal"
+featured: false
 ---
 
 Every developer has a personal set of tools they prefer, but most share the same basic setup. The core of any developer's toolkit is a code editor. VS Code is the most popular choice today because it is free, fast, and has thousands of extensions for every language.
