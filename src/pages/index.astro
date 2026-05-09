@@ -16,139 +16,175 @@ const featuredReadTime = Math.ceil(wordCount / 200) + ' min read';
 const featuredDate = new Date(featured.frontmatter.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
 ---
 <BaseLayout title="CodeObsessed — Honest answers for coders">
-  <section class="hero-card">
-    <div class="hero-image-wrapper">
-      <div class="matrix-desktop">
-        <MatrixRain />
-      </div>
-      <div class="image-mobile">
-        {featured.frontmatter.coverImage ? (
-          <img src={featured.frontmatter.coverImage} alt="" class="hero-image" loading="lazy" decoding="async" onerror="this.onerror=null;this.style.display='none';this.parentElement.style.background='#1a1a1a';" />
-        ) : null}
-        <div class="hero-image-fallback" style={{ display: featured.frontmatter.coverImage ? 'none' : 'flex' }}>
-          <span>CodeObsessed</span>
-        </div>
+  <section class="hero-section">
+    <div class="hero-left">
+      <h1 class="hero-tagline">Igniting curiosity,<br />inspiring coders <span class="tagline-blink">_</span></h1>
+      <p class="hero-subtext">Honest answers for every coder, beginner to pro.</p>
+      <div class="search-wrapper">
+        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+        <input type="text" id="search-input" placeholder="Search articles..." autocomplete="off" />
       </div>
     </div>
-    <div class="hero-content">
-      <DifficultyBadge difficulty={featured.frontmatter.difficulty} />
-      <h1 class="hero-title">{featured.frontmatter.title}</h1>
-      <p class="hero-desc">{featured.frontmatter.description}</p>
-      <div class="hero-meta">
-        <span>{featured.frontmatter.author || 'Pranjal Bhatt'}</span>
-        <span class="hero-meta-sep">•</span>
-        <span>{featuredDate}</span>
-        <span class="hero-meta-sep">•</span>
-        <span>{featuredReadTime}</span>
-      </div>
-      <a href={`/articles/${featured.slug}`} class="hero-link">Read Article →</a>
+    <div class="hero-right">
+      <MatrixRain />
     </div>
   </section>
 
   <h2 class="section-heading">Latest Articles</h2>
 
+  <p id="no-results" class="no-results-msg">No articles match your search.</p>
+
   <section class="card-grid">
-    {rest.map(a => <QuestionCard article={a} />)}
+    {sorted.map(a => <QuestionCard article={a} />)}
+  </section>
+
+  <section class="tag-cloud">
+    <h3 class="tag-cloud-heading">Browse by Topic</h3>
+    <div class="tag-pills">
+      <span class="tag-pill" data-tag="Beginner">#Beginner</span>
+      <span class="tag-pill" data-tag="Intermediate">#Intermediate</span>
+      <span class="tag-pill" data-tag="AllLevels">#AllLevels</span>
+      <span class="tag-pill" data-tag="Tools">#Tools</span>
+      <span class="tag-pill" data-tag="Git">#Git</span>
+      <span class="tag-pill" data-tag="Linux">#Linux</span>
+      <span class="tag-pill" data-tag="Math">#Math</span>
+      <span class="tag-pill" data-tag="AI">#AI</span>
+      <span class="tag-pill" data-tag="Languages">#Languages</span>
+      <span class="tag-pill" data-tag="DSA">#DSA</span>
+      <span class="tag-pill" data-tag="Career">#Career</span>
+      <span class="tag-pill" data-tag="Roadmap">#Roadmap</span>
+      <span class="tag-pill" data-tag="LeetCode">#LeetCode</span>
+      <span class="tag-pill" data-tag="Degree">#Degree</span>
+    </div>
   </section>
 </BaseLayout>
 
+<script>
+  const searchInput = document.getElementById('search-input');
+  const cards = document.querySelectorAll('.card-grid > *');
+  const noResults = document.getElementById('no-results');
+
+  function filterCards() {
+    if (!searchInput || !cards.length) return;
+    const term = searchInput.value.toLowerCase().trim();
+    let visible = 0;
+    cards.forEach(card => {
+      const title = (card.querySelector('.card-title')?.textContent || '').toLowerCase();
+      const desc = (card.querySelector('.card-description')?.textContent || '').toLowerCase();
+      const matches = !term || title.includes(term) || desc.includes(term);
+      card.style.display = matches ? '' : 'none';
+      if (matches) visible++;
+    });
+    if (noResults) {
+      noResults.style.display = term && visible === 0 ? 'block' : 'none';
+    }
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('keyup', filterCards);
+  }
+
+  document.querySelectorAll('.tag-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      const tag = pill.dataset.tag;
+      if (searchInput) {
+        searchInput.value = tag;
+        filterCards();
+        searchInput.focus();
+        searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+  });
+</script>
+
 <style>
-  .hero-card {
+  .hero-section {
     display: flex;
-    max-width: 1100px;
-    margin: 2rem auto 3rem;
-    height: 420px;
-    border-radius: 16px;
-    background: var(--bg-card);
-    overflow: hidden;
-  }
-
-  .hero-image-wrapper {
-    flex: 0 0 55%;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .image-mobile {
-    display: none;
-    width: 100%;
-    height: 100%;
-  }
-
-  .image-mobile .hero-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .hero-image-fallback {
-    width: 100%;
-    height: 100%;
-    background: var(--bg-card);
-    display: flex;
+    gap: 3rem;
     align-items: center;
-    justify-content: center;
+    padding: 2.5rem 0 2rem;
   }
 
-  .hero-image-fallback span {
-    color: var(--accent);
-    font-family: 'Inter', monospace;
-    font-weight: 600;
-    font-size: 1.1rem;
+  .hero-left {
+    flex: 0 0 60%;
+    max-width: 700px;
   }
 
-  .hero-content {
-    flex: 1;
-    padding: 2.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .hero-title {
+  .hero-tagline {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin: 0.75rem 0 0.75rem;
+    font-size: 3rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 1.5rem;
     line-height: 1.2;
+    max-width: 700px;
   }
 
-  .hero-desc {
+  .tagline-blink {
+    animation: taglineBlink 1s step-end infinite;
+  }
+
+  @keyframes taglineBlink {
+    50% { opacity: 0; }
+  }
+
+  .hero-subtext {
     font-family: 'Inter', sans-serif;
-    font-size: 1rem;
-    color: #9ca3af;
-    margin: 0 0 1rem;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin: 0 0 2.5rem;
     line-height: 1.5;
   }
 
-  .hero-meta {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    margin-bottom: 1.25rem;
-    flex-wrap: wrap;
+  .search-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
   }
 
-  .hero-meta-sep {
-    color: #4b5563;
+  .search-icon {
+    position: absolute;
+    left: 1.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 1;
   }
 
-  .hero-link {
+  #search-input {
+    width: 100%;
+    height: 54px;
+    padding: 0.85rem 1.5rem 0.85rem 3rem;
+    border-radius: 999px;
+    background: var(--bg-card);
+    border: 1.5px solid #2a2a2a;
+    color: #ffffff;
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
-    font-weight: 500;
-    color: var(--accent);
-    text-decoration: none;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
   }
 
-  .hero-link:hover {
-    text-decoration: underline;
+  #search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
+  }
+
+  #search-input::placeholder {
+    color: #6b7280;
+  }
+
+  .hero-right {
+    flex: 0 0 40%;
+    height: 320px;
+    border-radius: 16px;
+    overflow: hidden;
+    opacity: 0.7;
+  }
+
+  .hero-right canvas {
+    border-radius: 16px;
   }
 
   .section-heading {
@@ -161,11 +197,60 @@ const featuredDate = new Date(featured.frontmatter.date).toLocaleDateString('en-
     margin: 0 0 1.5rem;
   }
 
+  .no-results-msg {
+    display: none;
+    color: var(--accent);
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    text-align: center;
+    padding: 2rem 0;
+    margin: 0;
+  }
+
   .card-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.75rem;
     margin-bottom: 3rem;
+  }
+
+  .tag-cloud {
+    margin-bottom: 3rem;
+  }
+
+  .tag-cloud-heading {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin: 0 0 1rem;
+  }
+
+  .tag-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .tag-pill {
+    background: var(--bg-card);
+    border: 1px solid #2a2a2a;
+    border-radius: 999px;
+    padding: 0.35rem 0.9rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    user-select: none;
+  }
+
+  .tag-pill:hover {
+    background: var(--accent-dim);
+    color: var(--accent);
+    border-color: var(--accent);
   }
 
   @media (max-width: 1024px) {
@@ -176,30 +261,28 @@ const featuredDate = new Date(featured.frontmatter.date).toLocaleDateString('en-
   }
 
   @media (max-width: 768px) {
-    .hero-card {
+    .hero-section {
       flex-direction: column;
-      height: auto;
+      gap: 0;
+      text-align: center;
     }
 
-    .hero-image-wrapper {
-      flex: none;
-      height: 240px;
+    .hero-left {
+      flex: 0 0 100%;
     }
 
-    .matrix-desktop {
+    .hero-tagline {
+      font-size: 2rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .search-wrapper {
+      margin: 0 auto;
+    }
+
+    .hero-right {
       display: none;
-    }
-
-    .image-mobile {
-      display: block;
-    }
-
-    .hero-content {
-      padding: 1.5rem;
-    }
-
-    .hero-title {
-      font-size: 1.5rem;
     }
 
     .card-grid {
@@ -209,12 +292,8 @@ const featuredDate = new Date(featured.frontmatter.date).toLocaleDateString('en-
   }
 
   @media (max-width: 480px) {
-    .hero-image-wrapper {
-      height: 200px;
-    }
-
-    .hero-title {
-      font-size: 1.6rem;
+    .hero-tagline {
+      font-size: 2rem;
     }
 
     .card-grid {

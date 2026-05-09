@@ -45,6 +45,7 @@ const defaultTheme = 'hacker-green';
       </div>
     ))}
   </div>
+
 </BaseLayout>
 
 <script>
@@ -85,7 +86,7 @@ const defaultTheme = 'hacker-green';
     Object.entries(vars).forEach(([key, val]) => {
       root.style.setProperty(key, val);
     });
-    document.querySelectorAll('.theme-card').forEach(c => {
+    document.querySelectorAll('[data-theme]').forEach(c => {
       c.classList.toggle('active', c.dataset.theme === themeId);
     });
   }
@@ -93,13 +94,14 @@ const defaultTheme = 'hacker-green';
   const saved = localStorage.getItem('co-theme') || 'hacker-green';
   applyTheme(saved);
 
-  document.querySelectorAll('.theme-card').forEach(card => {
+  document.querySelectorAll('[data-theme]').forEach(card => {
     card.addEventListener('click', () => {
       const themeId = card.dataset.theme;
       localStorage.setItem('co-theme', themeId);
       applyTheme(themeId);
     });
   });
+
 </script>
 
 <style>

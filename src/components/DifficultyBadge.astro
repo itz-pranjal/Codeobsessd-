@@ -1,10 +1,9 @@
 ---
-// Colored badge showing article difficulty level
 const { difficulty } = Astro.props;
 const config = {
-  Beginner: { bg: '#dcfce7', text: '#166534', label: 'Beginner' },
-  Intermediate: { bg: '#ffedd5', text: '#9a3412', label: 'Intermediate' },
-  Both: { bg: '#dbeafe', text: '#1e40af', label: 'All Levels' },
+  Beginner: { bg: '#052e16', text: '#22c55e', label: 'Beginner' },
+  Intermediate: { bg: '#1c1917', text: '#f59e0b', label: 'Intermediate' },
+  Both: { bg: '#0c1a2e', text: '#60a5fa', label: 'All Levels' },
 };
 const { bg, text, label } = config[difficulty] || config.Beginner;
 ---
@@ -13,12 +12,13 @@ const { bg, text, label } = config[difficulty] || config.Beginner;
 <style>
   .badge {
     display: inline-block;
-    padding: 0.25rem 0.75rem;
+    padding: 0.2rem 0.65rem;
     border-radius: 999px;
-    font-family: var(--font-heading);
-    font-size: 0.75rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
     font-weight: 600;
-    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
     white-space: nowrap;
   }
 </style>

@@ -34,6 +34,8 @@ const { title = 'CodeObsessed' } = Astro.props;
       const selected = vars[theme] || vars['hacker-green'];
       const root = document.documentElement;
       Object.entries(selected).forEach(([k, v]) => root.style.setProperty(k, v));
+
+
     })();
   </script>
 </head>

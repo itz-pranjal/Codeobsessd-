@@ -2,28 +2,37 @@
 
 <script>
   const canvas = document.getElementById('matrix-canvas');
-  let ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d');
   let columns = [];
   let columnCount = 0;
   let animId = null;
   let lastFrame = 0;
   const fps = 30;
   const interval = 1000 / fps;
+  const fontSize = 16;
+  const spacing = 18;
 
-  const chars = '01{}();=></*';
+  const chars = "01{}[]();=></*#@$&|~^%ABCDEFabcdef";
+
+  function getAccentColor() {
+    return getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#22c55e';
+  }
+
+  function hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? parseInt(result[1], 16) + ',' + parseInt(result[2], 16) + ',' + parseInt(result[3], 16) : '34,197,94';
+  }
 
   function resize() {
     const rect = canvas.parentElement.getBoundingClientRect();
     canvas.width = rect.width;
-    canvas.height = rect.height;
-    const fontSize = 14;
-    columnCount = Math.floor(canvas.width / fontSize);
+    canvas.height = Math.max(rect.height, 320);
+    columnCount = Math.floor(canvas.width / spacing);
     columns = [];
     for (let i = 0; i < columnCount; i++) {
       columns.push({
         y: Math.random() * canvas.height,
-        speed: 0.3 + Math.random() * 0.7,
-        opacity: 0.3 + Math.random() * 0.7,
+        speed: 1 + Math.random() * 1.5,
       });
     }
   }
@@ -38,27 +47,39 @@
     ctx.fillStyle = 'rgba(15, 15, 15, 0.05)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.font = '14px monospace';
+    ctx.font = fontSize + 'px monospace';
+    const accent = getAccentColor();
+    const accentRgb = hexToRgb(accent);
 
     for (let i = 0; i < columns.length; i++) {
       const col = columns[i];
-      const x = i * 14;
+      const x = i * spacing;
       const char = chars[Math.floor(Math.random() * chars.length)];
 
-      const leadingBright = 0.5 + col.opacity * 0.5;
-      ctx.fillStyle = `rgba(34, 197, 94, ${leadingBright})`;
+      ctx.fillStyle = '#ffffff';
       ctx.fillText(char, x, col.y);
 
-      ctx.fillStyle = `rgba(34, 197, 94, ${col.opacity * 0.3})`;
-      ctx.fillText(char, x, col.y - 14);
+      ctx.fillStyle = accent;
+      ctx.fillText(char, x, col.y - spacing);
 
-      ctx.fillStyle = `rgba(34, 197, 94, ${col.opacity * 0.1})`;
-      ctx.fillText(char, x, col.y - 28);
+      ctx.fillStyle = `rgba(${accentRgb}, 0.8)`;
+      ctx.fillText(char, x, col.y - spacing * 2);
 
-      if (col.y > canvas.height) {
+      ctx.fillStyle = `rgba(${accentRgb}, 0.6)`;
+      ctx.fillText(char, x, col.y - spacing * 3);
+
+      ctx.fillStyle = `rgba(${accentRgb}, 0.4)`;
+      ctx.fillText(char, x, col.y - spacing * 4);
+
+      ctx.fillStyle = `rgba(${accentRgb}, 0.2)`;
+      ctx.fillText(char, x, col.y - spacing * 5);
+
+      ctx.fillStyle = `rgba(${accentRgb}, 0.1)`;
+      ctx.fillText(char, x, col.y - spacing * 6);
+
+      if (col.y > canvas.height + spacing * 6) {
         col.y = 0;
-        col.speed = 0.3 + Math.random() * 0.7;
-        col.opacity = 0.3 + Math.random() * 0.7;
+        col.speed = 1 + Math.random() * 1.5;
       }
       col.y += col.speed;
     }
@@ -80,7 +101,8 @@
     display: block;
     width: 100%;
     height: 100%;
-    border-radius: 16px 0 0 16px;
+    min-height: 320px;
+    border-radius: 16px;
     background: #0f0f0f;
   }
 </style>
